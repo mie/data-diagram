@@ -1,0 +1,18 @@
+.main {
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 0;
+	max-width: 100%;
+	padding-left: 3.5rem;
+	padding-top: 3.5rem;
+}
+
+.mainInner {
+	display: flex;
+	flex: 1 1 auto;
+	position: relative;
+	max-width: 100%;
+	padding: 0.5rem;
+	align-items: items-center;
+	justify-content: center;
+}
