@@ -8,5 +8,6 @@
 	background: rgb(212,212,212);
 	position: fixed;
 	max-width: 100%;
-	display: block
+	display: block;
+	z-index: 2;
 }

@@ -20,6 +20,6 @@ code {
   width: 1280px;
 }
 
-.pointer-events-all {
-  pointer-events: all;
+.canvas {
+  max-height: calc(100vh - 11rem);
 }

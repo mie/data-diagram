@@ -22,9 +22,10 @@ export const createField = (name?: string): FieldType => {
   };
 };
 
-export const createNode = (id?: string): NodeData => {
+export const createNode = (name: string, id?: string): NodeData => {
+	const nodeid: string = id !== undefined ? id : new Date().getTime().toString()
 	return {
-		id: id !== undefined ? id : new Date().getTime().toString()
-		,text: "Node"
+		id: nodeid
+		,text: [name, nodeid].join("-")
 	}
 }
