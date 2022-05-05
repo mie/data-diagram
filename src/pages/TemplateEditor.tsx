@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { TemplateList } from "./TemplateList";
-import { FieldType, TemplateType } from "../types/template";
-import { FieldList } from "./FieldList";
+import { TemplateList } from "../components/TemplateList";
+import { CalculatorType, FieldType, TemplateType, ValueType } from "../types/template";
+import { FieldList } from "../components/FieldList";
 import { createField, createTemplate } from "../utils/objectFactory";
 
 export function TemplateEditor() {
@@ -11,13 +11,20 @@ export function TemplateEditor() {
   );
 
   useEffect(() => {
-		setSelectedTemplate({} as TemplateType);
+    setSelectedTemplate({} as TemplateType);
     setTemplates([
       {
         id: 1,
         name: "NodeTemplate",
         fields: [
-          { id: 1, name: "Name", type: "string", default: "", required: true },
+          {
+            id: 1,
+            name: "Name",
+            type: ValueType.string	,
+            default: "",
+            calculator: CalculatorType.None,
+            required: true,
+          },
         ],
       },
       {
@@ -27,24 +34,41 @@ export function TemplateEditor() {
           {
             id: 2,
             name: "Product1",
-            type: "string",
+            type: ValueType.string,
             default: "",
+            calculator: CalculatorType.None,
             required: true,
           },
           {
             id: 3,
             name: "Product2",
-            type: "string",
+            type: ValueType.string,
             default: "",
+            calculator: CalculatorType.None,
             required: true,
           },
-          { id: 4, name: "Source", type: "int", default: "", required: true },
-          { id: 5, name: "Dest", type: "int", default: "", required: true },
+          {
+            id: 4,
+            name: "Source",
+            type: ValueType.int,
+            default: "0",
+            calculator: CalculatorType.None,
+            required: true,
+          },
+          {
+            id: 5,
+            name: "Dest",
+            type: ValueType.int,
+            default: "0",
+            calculator: CalculatorType.None,
+            required: true,
+          },
           {
             id: 6,
             name: "Measured",
-            type: "float",
-            default: "",
+            type: ValueType.float,
+            default: "0.0",
+            calculator: CalculatorType.None,
             required: false,
           },
         ],
@@ -56,18 +80,27 @@ export function TemplateEditor() {
           {
             id: 7,
             name: "Measured",
-            type: "float",
-            default: "",
+            type: ValueType.float,
+            default: "0.0",
+            calculator: CalculatorType.None,
             required: true,
           },
           {
             id: 8,
             name: "ProductName",
-            type: "string",
+            type: ValueType.string,
             default: "",
+            calculator: CalculatorType.None,
             required: true,
           },
-          { id: 9, name: "Name", type: "string", default: "", required: true },
+          {
+            id: 9,
+            name: "Name",
+            type: ValueType.string,
+            default: "",
+            calculator: CalculatorType.None,
+            required: true,
+          },
         ],
       },
     ]);
@@ -85,30 +118,41 @@ export function TemplateEditor() {
         return t.id !== id;
       })
     );
-		if (selectedTemplate.id === id) {
-			setSelectedTemplate({} as TemplateType)
-		}
+    if (selectedTemplate.id === id) {
+      setSelectedTemplate({} as TemplateType);
+    }
   };
 
-  const updateTemplate = (id: number, values: object) => {
+  const updateTemplate = (values: object) => {
     const template = { ...selectedTemplate, ...values };
     setTemplates(
       templates
         .filter((t: TemplateType) => {
-          return t.id !== id;
+          return t.id !== selectedTemplate.id;
         })
         .concat([template])
     );
-		setSelectedTemplate(template);
+    setSelectedTemplate(template);
   };
 
-	const addField = () => {
-		updateTemplate(selectedTemplate.id, {fields: [...selectedTemplate.fields, createField()]})
-	}
+  const addField = () => {
+    updateTemplate({ fields: [...selectedTemplate.fields, createField()] });
+  };
 
-	const updateField = (id: number, values: object) => {
-		
-	}
+  const updateField = (id: number, values: object) => {
+    const fields: FieldType[] = [
+      ...selectedTemplate.fields.filter((f: FieldType) => {
+        return f.id !== id;
+      }),
+      {
+        ...selectedTemplate.fields.filter((f: FieldType) => {
+          return f.id === id;
+        })[0],
+        ...values,
+      },
+    ];
+    updateTemplate({ fields: fields });
+  };
 
   return (
     <div className="flex flex-col max-w-full w-panel bg-slate-50 rounded-md p-4">
@@ -120,9 +164,11 @@ export function TemplateEditor() {
           <TemplateList
             templates={templates}
             selectedTemplate={selectedTemplate}
-            select={(template: TemplateType) => setSelectedTemplate(template)}
-            delete={(templateid) => deleteTemplate(templateid)}
-            update={(id, value) => updateTemplate(id, value)}
+            selectTemplate={(template: TemplateType) =>
+              setSelectedTemplate(template)
+            }
+            deleteTemplate={(templateid) => deleteTemplate(templateid)}
+            updateTemplate={(id, value) => updateTemplate(value)}
           />
           <button
             className="border px-4 py-2 mt-2 text-white bg-green-600 rounded-md"
@@ -143,12 +189,18 @@ export function TemplateEditor() {
                     ? []
                     : selectedTemplate.fields
                 }
-                deleteField={(id) => updateTemplate(selectedTemplate.id, {fields: selectedTemplate.fields.filter((f: FieldType) => f.id !== id)})}
+                deleteField={(id) =>
+                  updateTemplate({
+                    fields: selectedTemplate.fields.filter(
+                      (f: FieldType) => f.id !== id
+                    ),
+                  })
+                }
                 updateField={(id, data) => updateField(id, data)}
               />
               <button
                 className="border px-2 mt-2 text-white bg-green-600 rounded-md"
-								onClick={addField}
+                onClick={addField}
               >
                 + Add Field
               </button>

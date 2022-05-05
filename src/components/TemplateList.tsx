@@ -5,14 +5,14 @@ import { EditableField } from "../ui/editable-field/EditableField";
 interface TemplateListProps {
   templates: TemplateType[];
   selectedTemplate?: TemplateType;
-  select: (template: TemplateType) => void;
-  delete: (id: number) => void;
-	update: (id: number, values: object) => void
+  selectTemplate: (template: TemplateType) => void;
+  deleteTemplate: (id: number) => void;
+	updateTemplate: (id: number, values: object) => void
 }
 
 export function TemplateList(props: TemplateListProps) {
   const selectTemplate = (template: TemplateType) => {
-    props.select(template);
+    props.selectTemplate(template);
   };
 
 	const [sortedTemplates, setSortedTemplates] = useState<TemplateType[]>([])
@@ -25,7 +25,7 @@ export function TemplateList(props: TemplateListProps) {
 
 	const deleteTemplate = (e: React.MouseEvent, id: number) => {
 		e.stopPropagation();
-		props.delete(id)
+		props.deleteTemplate(id)
 	}
 
   const templateClasses: string =
@@ -40,12 +40,12 @@ export function TemplateList(props: TemplateListProps) {
               props.selectedTemplate === undefined ||
               props.selectedTemplate !== template
                 ? templateClasses
-                : templateClasses + " " + "bg-cyan-200"
+                : templateClasses + " bg-cyan-200"
             }
             onClick={() => selectTemplate(template)}
             key={template.name}
           >
-            <EditableField view={true} text={template.name} onSave={(value: string) => props.update(template.id, {name: value})} />
+            <EditableField view={true} text={template.name} onSave={(value: string) => props.updateTemplate(template.id, {name: value})} />
             <button
               className="bg-red-600 text-white px-1 border"
               onClick={(e) => deleteTemplate(e, template.id)}

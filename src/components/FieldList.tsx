@@ -1,5 +1,5 @@
 import { EditableField } from "../ui/editable-field/EditableField";
-import { FieldType } from "../types/template";
+import { CalculatorType, FieldType, ValueType } from "../types/template";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 	updateField: (id: number, update: Object) => void
 };
 export function FieldList(props: Props) {
-  const [tempField, setTempField] = useState<FieldType>({name: "", type: "string", id: 0, required: false, default: ""});
+	const [selectedField, setSelectedField] = useState({} as FieldType);
 	const [sortedFields, setSortedFields] = useState<FieldType[]>([])
 
 	useEffect(() => {
@@ -17,10 +17,6 @@ export function FieldList(props: Props) {
 		}))
 	}, [props.fields])
 
-  const chooseField = (field: FieldType) => {
-    if (tempField === null || tempField!.name !== field.name) setTempField(field);
-  };
-
   return (
     <div>
       <table className="w-full mt-4 table-fixed">
@@ -28,6 +24,7 @@ export function FieldList(props: Props) {
           <tr>
             <td className="p-2 border-x">Name</td>
             <td className="w-32 p-2 border-r">Type</td>
+						<td className="w-32 p-2 border-r">Calculator</td>
             <td className="w-40 p-2 border-r">Default</td>
             <td className="w-20 p-2 border-r">Required</td>
 						<td className="w-20 p-2 border-r">Actions</td>
@@ -45,9 +42,24 @@ export function FieldList(props: Props) {
                       props.updateField(field.id, {name: value})
                     }
                     onTextClick={() => {
-                      chooseField(field);
+                      setSelectedField(field);
                     }}
                   />
+                </td>
+								<td className="w-32 p-1 border-r">
+                  <select
+                    className="form-select p-1 bg-white border"
+                    defaultValue={field.calculator}
+										onChange={(e) => props.updateField(field.id, {calculator: e.target.value})}
+                  >
+                    {Object.entries(CalculatorType).map((t: [string, CalculatorType]) => {
+                      return (
+                        <option value={t[1]} key={t[0]}>
+                          {t[1]}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </td>
                 <td className="w-32 p-1 border-r">
                   <select
@@ -55,10 +67,10 @@ export function FieldList(props: Props) {
                     defaultValue={field.type}
 										onChange={(e) => props.updateField(field.id, {type: e.target.value})}
                   >
-                    {["int", "float", "string", "boolean"].map((t: string) => {
+                    {Object.entries(ValueType).map((t: [string, ValueType]) => {
                       return (
-                        <option value={t} key={t}>
-                          {t}
+                        <option value={t[1]} key={t[0]}>
+                          {t[1]}
                         </option>
                       );
                     })}
@@ -67,10 +79,10 @@ export function FieldList(props: Props) {
                 <td className="w-40 p-1 border-r">
                   <EditableField
                     view={true}
-                    text={field.default}
+                    text={field.default === "" ? "<empty string>" : field.default}
                     onSave={(value: string) => props.updateField(field.id, {default: value}) }
                     onTextClick={() => {
-                      chooseField(field);
+                      setSelectedField(field);
                     }}
                   />
                 </td>

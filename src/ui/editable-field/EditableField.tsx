@@ -20,6 +20,11 @@ export function EditableField(props: Props) {
 		}
   };
 
+	const cancelEdit = () => {
+		setViewState(true);
+		setValue(props.text);
+	}
+
   return (
     <>
       {viewState ? (
@@ -44,7 +49,7 @@ export function EditableField(props: Props) {
           </button>
           <button
             className="border px-1 bg-yellow-300"
-            onClick={() => setViewState(true)}
+            onClick={cancelEdit}
           >
             Cancel
           </button>
