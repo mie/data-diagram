@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { TemplateList } from "../components/TemplateList";
-import { CalculatorType, FieldType, TemplateType, ValueType } from "../types/template";
+import {
+  CalculatorType,
+  FieldType,
+  TemplateType,
+  ValueType,
+} from "../types/template";
 import { FieldList } from "../components/FieldList";
 import { createField, createTemplate } from "../utils/objectFactory";
+import { Button } from "../ui/button/Button";
 
 export function TemplateEditor() {
   const [templates, setTemplates] = useState<TemplateType[]>([]);
@@ -20,7 +26,7 @@ export function TemplateEditor() {
           {
             id: 1,
             name: "Name",
-            type: ValueType.string	,
+            type: ValueType.string,
             default: "",
             calculator: CalculatorType.None,
             required: true,
@@ -170,12 +176,9 @@ export function TemplateEditor() {
             deleteTemplate={(templateid) => deleteTemplate(templateid)}
             updateTemplate={(id, value) => updateTemplate(value)}
           />
-          <button
-            className="border px-4 py-2 mt-2 text-white bg-green-600 rounded-md"
-            onClick={addTemplate}
-          >
-            + Add Template
-          </button>
+          <div>
+            <Button clickAction={addTemplate}>+ Add Template</Button>
+          </div>
         </div>
 
         <div className="w-2/3 border bg-white p-4">

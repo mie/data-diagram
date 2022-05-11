@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 type Props = {
   dragStarted: (e: React.MouseEvent) => void;

@@ -2,18 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer utilities {
+  .btn {
+    @apply relative inline rounded shadow-btn-up shadow-gray-400;
+  }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  .btn-sm {
+    @apply px-0 pt-0 pb-1 text-xs;
+  }
+
+  .btn-md {
+    @apply px-1 pt-1 pb-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-2 pt-2 pb-3;
+  }
+
+  .default {
+    @apply bg-gray-800 text-blue-100 hover:bg-gray-700;
+  }
+
+  .primary {
+    @apply bg-green-800 text-blue-100 hover:bg-green-700;
+  }
+
+  .danger {
+    @apply bg-red-800 text-yellow-100 hover:bg-red-700;
+  }
+
+  .cancel {
+    @apply bg-yellow-800 text-yellow-100 hover:bg-yellow-700;
+  }
+
+  .btn.btn-down {
+    @apply shadow-btn-down top-[2px];
+  }
 }
 
 .w-panel {
