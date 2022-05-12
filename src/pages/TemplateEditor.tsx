@@ -161,11 +161,11 @@ export function TemplateEditor() {
   };
 
   return (
-    <div className="flex flex-col max-w-full w-panel bg-slate-50 rounded-md p-4">
+    <div className="flex flex-col max-w-full w-panel bg-slate-50 rounded-md p-4 h-full">
       <div className="">
         <p className="text-xl">Template editing</p>
       </div>
-      <div className="flex flex-row min-w-full mt-2">
+      <div className="flex flex-row min-w-full mt-2 h-full">
         <div className="w-1/3 flex flex-col border p-4 gap-1">
           <TemplateList
             templates={templates}
@@ -181,7 +181,7 @@ export function TemplateEditor() {
           </div>
         </div>
 
-        <div className="w-2/3 border bg-white p-4">
+        <div className="w-2/3 border bg-white p-4 h-full">
           {!Array.isArray(selectedTemplate.fields) ? (
             <div>Select a template</div>
           ) : (
