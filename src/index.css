@@ -12,7 +12,7 @@
   }
 
   .btn-md {
-    @apply px-1 pt-1 pb-2 text-sm;
+    @apply px-1 py-1 text-sm;
   }
 
   .btn-lg {

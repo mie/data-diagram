@@ -201,12 +201,11 @@ export function TemplateEditor() {
                 }
                 updateField={(id, data) => updateField(id, data)}
               />
-              <button
-                className="border px-2 mt-2 text-white bg-green-600 rounded-md"
-                onClick={addField}
+              <Button
+                clickAction={addField}
               >
                 + Add Field
-              </button>
+              </Button>
             </div>
           )}
         </div>
