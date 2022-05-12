@@ -1,4 +1,5 @@
 import * as React from "react";
+import { btnTypes, Button } from "../button/Button";
 type Props = {
   view: boolean;
   text: string;
@@ -15,15 +16,15 @@ export function EditableField(props: Props) {
 
   const clickView = () => {
     setViewState(false);
-		if (typeof(props.onTextClick) === "function") {
-			props.onTextClick();
-		}
+    if (typeof props.onTextClick === "function") {
+      props.onTextClick();
+    }
   };
 
-	const cancelEdit = () => {
-		setViewState(true);
-		setValue(props.text);
-	}
+  const cancelEdit = () => {
+    setViewState(true);
+    setValue(props.text);
+  };
 
   return (
     <>
@@ -37,22 +38,19 @@ export function EditableField(props: Props) {
           </span>
         </div>
       ) : (
-        <div className="flex flex-row overflow-hidden">
+        <div className="flex flex-row overflow-hidden input-group">
           <input
-            className="mr-2 border-b px-1 w-full"
+            className="input"
             type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button className="border px-1 bg-emerald-300" onClick={save}>
+					<Button clickAction={save} type={btnTypes.primary}>
             Save
-          </button>
-          <button
-            className="border px-1 bg-yellow-300"
-            onClick={cancelEdit}
-          >
+          </Button>
+          <Button clickAction={cancelEdit} type={btnTypes.cancel}>
             Cancel
-          </button>
+          </Button>
         </div>
       )}
     </>

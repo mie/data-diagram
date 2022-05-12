@@ -6,8 +6,7 @@ import { FakeDraggable } from "../ui/fake-draggable/FakeDraggable";
 import { FakeDroppable } from "../ui/fake-droppable/FakeDroppable";
 import { createNode } from "../utils/objectFactory";
 
-type Props = {};
-export function VisualEditor(props: Props) {
+export function VisualEditor() {
   const [nodes, setNodes] = useState<NodeData[]>([]);
   const [edges, setEdges] = useState<EdgeData[]>([]);
   const [droppable, setDroppable] = useState<boolean>(false);

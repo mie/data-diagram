@@ -1,49 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer utilities {
-  .btn {
-    @apply relative inline rounded shadow-btn-up shadow-gray-400;
-  }
-
-  .btn-sm {
-    @apply px-0 pt-0 pb-1 text-xs;
-  }
-
-  .btn-md {
-    @apply px-1 py-1 text-sm;
-  }
-
-  .btn-lg {
-    @apply px-2 pt-2 pb-3;
-  }
-
-  .default {
-    @apply bg-gray-800 text-blue-100 hover:bg-gray-700;
-  }
-
-  .primary {
-    @apply bg-green-800 text-blue-100 hover:bg-green-700;
-  }
-
-  .danger {
-    @apply bg-red-800 text-yellow-100 hover:bg-red-700;
-  }
-
-  .cancel {
-    @apply bg-yellow-800 text-yellow-100 hover:bg-yellow-700;
-  }
-
-  .btn.btn-down {
-    @apply shadow-btn-down top-[2px];
-  }
-}
-
-.w-panel {
-  width: 1280px;
-}
-
-.canvas {
-  max-height: calc(100vh - 11rem);
-}
+@import './styles/base.css';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import './styles/buttons.css';
+@import './styles/inputs.css';
+@import './styles/panels.css';

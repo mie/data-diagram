@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { TemplateEditor } from "./pages/TemplateEditor";
-import { VisualEditor } from "./pages/VisualEditor";
+import { StaticRoutes, StaticRouteType } from "./routes";
 import { AppHeader } from "./ui/app-header/AppHeader";
 import { AppMain } from "./ui/app-main/AppMain";
 import { AppSidebar } from "./ui/app-sidebar/AppSidebar";
@@ -13,18 +12,22 @@ function App() {
     <BrowserRouter>
       <AppWrapper>
         <AppHeader>
-          <div className="flex flex-row h-full pl-4 items-center">
-            <Link className="text-orange-600 hover:underline" to="/">Templates</Link>
-						<Link className="text-orange-600 hover:underline ml-4" to="/edit">Visual Editor</Link>
-          </div>
+          <span>Header</span>
         </AppHeader>
         <AppSidebar>
-          <span>Sidebar</span>
+          {StaticRoutes.map((r: StaticRouteType) => {
+            return (
+              <Link className="mb-4" to={r.path} key={r.path}>
+                {r.title}
+              </Link>
+            );
+          })}
         </AppSidebar>
         <AppMain>
           <Routes>
-            <Route path="/" element={<TemplateEditor />} />
-						<Route path="/edit" element={<VisualEditor />} />
+            {StaticRoutes.map((r: StaticRouteType) => {
+              return <Route path={r.path} element={r.element()} key={r.path} />;
+            })}
           </Routes>
         </AppMain>
       </AppWrapper>

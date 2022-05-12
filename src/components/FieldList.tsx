@@ -20,7 +20,7 @@ export function FieldList(props: Props) {
 
   return (
     <div>
-      <table className="w-full mt-4 table-fixed">
+      <table className="w-full mt-4 table-fixed bg-slate-500">
         <thead className="w-full border-y text-sm font-bold">
           <tr>
             <td className="p-2 border-x">Name</td>
@@ -46,7 +46,7 @@ export function FieldList(props: Props) {
                 </td>
                 <td className="w-32 p-1 border-r">
                   <select
-                    className="form-select p-1 bg-white border"
+                    className="input"
                     defaultValue={field.calculator}
                     onChange={(e) =>
                       props.updateField(field.id, {
@@ -67,7 +67,7 @@ export function FieldList(props: Props) {
                 </td>
                 <td className="w-32 p-1 border-r">
                   <select
-                    className="form-select p-1 bg-white border"
+                    className="input"
                     defaultValue={field.type}
                     onChange={(e) =>
                       props.updateField(field.id, { type: e.target.value })
@@ -96,6 +96,7 @@ export function FieldList(props: Props) {
                 <td className="w-20 p-1 text-center border-r">
                   <input
                     type="checkbox"
+										className="checkbox"
                     checked={field.required}
                     onChange={(e) =>
                       props.updateField(field.id, {

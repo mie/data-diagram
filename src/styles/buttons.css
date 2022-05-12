@@ -1,0 +1,43 @@
+.btn {
+  @apply relative rounded inline shadow-btn-up shadow-gray-400;
+}
+
+.input-group>.input[type=text]:not(:last-child),.input-group>.btn:not(:last-child) {
+	@apply rounded-r-none;
+}
+
+.input-group>.input[type=text]:not(:first-child),.input-group>.btn:not(:first-child) {
+	@apply rounded-l-none;
+}
+
+.btn-sm {
+  @apply px-0 pt-0 pb-1 text-xs;
+}
+
+.btn-md {
+  @apply px-1 py-1 text-sm;
+}
+
+.btn-lg {
+  @apply px-2 pt-2 pb-3;
+}
+
+.default {
+  @apply bg-gray-800 text-blue-100 hover:bg-gray-700;
+}
+
+.primary {
+  @apply bg-green-800 text-blue-100 hover:bg-green-700;
+}
+
+.danger {
+  @apply bg-red-800 text-yellow-100 hover:bg-red-700;
+}
+
+.cancel {
+  @apply bg-yellow-800 text-yellow-100 hover:bg-yellow-700;
+}
+
+.btn.btn-down {
+  @apply shadow-btn-down top-[2px];
+}

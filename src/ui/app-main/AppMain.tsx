@@ -1,13 +1,12 @@
 import React from "react";
-import cl from "./AppMain.module.css"
 
 type Props = {
     children?: React.ReactNode
 };
 export function AppMain(props: Props) {
   return (
-    <main className={cl.main}>
-      <div className={cl.mainInner}>
+    <main className="main">
+      <div className="main-inner">
         {props.children}
       </div>      
     </main>

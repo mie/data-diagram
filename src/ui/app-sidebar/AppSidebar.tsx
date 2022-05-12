@@ -1,13 +1,13 @@
 import React from "react";
-import cl from "./AppSidebar.module.css"
 
 type Props = {
-    children?: React.ReactNode
+  children?: React.ReactNode;
+  links?: string[];
 };
 export function AppSidebar(props: Props) {
   return (
-    <nav className={cl.sidebar}>
-        {props.children}
+    <nav className="sidebar">
+      <div className="sidebar-inner">{props.children}</div>
     </nav>
   );
-};
+}
