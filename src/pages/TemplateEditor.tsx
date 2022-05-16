@@ -24,7 +24,7 @@ export function TemplateEditor() {
   useEffect(() => {
     setSelectedTemplate({} as TemplateType);
 		dispatch(add(createTemplate("NodeTemplate")))
-  }, []);
+  }, [dispatch]);
   
   const addTemplate = () => {
     const newTemplate: TemplateType = createTemplate();

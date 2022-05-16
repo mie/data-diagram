@@ -5,6 +5,7 @@ type Props = {
   onDrop: (e: React.MouseEvent) => void;
   item: string | null;
   children?: React.ReactNode;
+	className?: string
 };
 export function FakeDraggable(props: Props) {
 	const [offsetX, setOffsetX] = useState<number>(0);
@@ -34,6 +35,7 @@ export function FakeDraggable(props: Props) {
       onMouseMove={(e) => mouseMove(e)}
       onMouseUp={(e) => props.onDrop(e)}
       onMouseDown={(e) => mouseDown(e)}
+			className={props.className}
     >
       {props.item !== null && <FakeDraggableClone x={cloneX} y={cloneY} />}
       {props.children}
