@@ -4,3 +4,7 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+
+label {
+	@apply mx-2
+}

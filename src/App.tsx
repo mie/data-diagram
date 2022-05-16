@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
 import { StaticRoutes, StaticRouteType } from "./routes";
 import { AppHeader } from "./ui/app-header/AppHeader";
 import { AppMain } from "./ui/app-main/AppMain";
@@ -10,7 +9,7 @@ import { AppWrapper } from "./ui/app-wrapper/AppWrapper";
 function App() {
   return (
     <BrowserRouter>
-      <AppWrapper>
+			<AppWrapper>
         <AppHeader>
           <span>Header</span>
         </AppHeader>
@@ -28,6 +27,7 @@ function App() {
             {StaticRoutes.map((r: StaticRouteType) => {
               return <Route path={r.path} element={r.element()} key={r.path} />;
             })}
+						<Route path="*" element={<Navigate to="/templates" replace />}/>
           </Routes>
         </AppMain>
       </AppWrapper>

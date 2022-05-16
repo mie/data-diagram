@@ -12,15 +12,15 @@ export function FieldList(props: Props) {
 
   useEffect(() => {
     setSortedFields(
-      props.fields.sort((a: FieldType, b: FieldType) => {
+      props.fields.slice().sort((a: FieldType, b: FieldType) => {
         return a.name.localeCompare(b.name);
       })
     );
   }, [props.fields]);
 
   return (
-    <div>
-      <table className="w-full mt-4 table-fixed bg-slate-500">
+    <div className="mb-1">
+      <table className="w-full table-fixed bg-gray-500">
         <thead className="w-full border-y text-sm font-bold">
           <tr>
             <td className="p-2 border-x">Name</td>

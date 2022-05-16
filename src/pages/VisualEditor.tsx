@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Canvas, EdgeData, NodeData, Node, addNodeAndEdge } from "reaflow";
+import { Panel } from "../components/Panel";
 import { ElementType } from "../types/visual";
 import { FakeDraggableItem } from "../ui/fake-draggable-item/FakeDraggableItem";
 import { FakeDraggable } from "../ui/fake-draggable/FakeDraggable";
@@ -23,26 +24,28 @@ export function VisualEditor() {
 
   const dropItem = () => {
     if (draggingItem !== null && droppable) {
-			if (enteredNode !== null) {
-				const result = addNodeAndEdge(nodes, edges, createNode(draggingItem), enteredNode);
-				setNodes(result.nodes);
-				setEdges(result.edges);
-			} else {
-				setNodes([...nodes, createNode(draggingItem)]);
-			}      
+      if (enteredNode !== null) {
+        const result = addNodeAndEdge(
+          nodes,
+          edges,
+          createNode(draggingItem),
+          enteredNode
+        );
+        setNodes(result.nodes);
+        setEdges(result.edges);
+      } else {
+        setNodes([...nodes, createNode(draggingItem)]);
+      }
       setDraggingItem(null);
     }
   };
 
   return (
-    <div className="flex flex-col max-w-full w-panel bg-slate-50 rounded-md p-4 z-0">
-      <div>
-        <p className="text-xl">Visual editor</p>
-      </div>
+    <Panel title="Template Editor">
       <FakeDraggable onDrop={(e) => setDraggingItem(null)} item={draggingItem}>
         <div className="flex flex-row min-w-full mt-2">
           <div className="w-1/3 flex flex-col border p-4 gap-1">
-						<p>Drag and drop boxes on the canvas</p>
+            <p>Drag and drop boxes on the canvas</p>
             {elementTypes.map((i, idx) => {
               return (
                 <FakeDraggableItem
@@ -74,6 +77,6 @@ export function VisualEditor() {
           </div>
         </div>
       </FakeDraggable>
-    </div>
+    </Panel>
   );
 }

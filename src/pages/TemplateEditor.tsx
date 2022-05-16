@@ -1,129 +1,39 @@
 import { useEffect, useState } from "react";
 import { TemplateList } from "../components/TemplateList";
 import {
-  CalculatorType,
+  TemplateElementType,
   FieldType,
   TemplateType,
-  ValueType,
 } from "../types/template";
 import { FieldList } from "../components/FieldList";
 import { createField, createTemplate } from "../utils/objectFactory";
 import { Button } from "../ui/button/Button";
+import { Panel } from "../components/Panel";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { add, remove, update } from '../reducers/templates'
 
 export function TemplateEditor() {
-  const [templates, setTemplates] = useState<TemplateType[]>([]);
+  const templates = useAppSelector(
+    (state) => state.templates.templates
+  );
+  const dispatch = useAppDispatch();
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>(
     {} as TemplateType
   );
 
   useEffect(() => {
     setSelectedTemplate({} as TemplateType);
-    setTemplates([
-      {
-        id: 1,
-        name: "NodeTemplate",
-        fields: [
-          {
-            id: 1,
-            name: "Name",
-            type: ValueType.string,
-            default: "",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: "FlowTemplate",
-        fields: [
-          {
-            id: 2,
-            name: "Product1",
-            type: ValueType.string,
-            default: "",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 3,
-            name: "Product2",
-            type: ValueType.string,
-            default: "",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 4,
-            name: "Source",
-            type: ValueType.int,
-            default: "0",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 5,
-            name: "Dest",
-            type: ValueType.int,
-            default: "0",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 6,
-            name: "Measured",
-            type: ValueType.float,
-            default: "0.0",
-            calculator: CalculatorType.None,
-            required: false,
-          },
-        ],
-      },
-      {
-        id: 3,
-        name: "TankTemplate",
-        fields: [
-          {
-            id: 7,
-            name: "Measured",
-            type: ValueType.float,
-            default: "0.0",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 8,
-            name: "ProductName",
-            type: ValueType.string,
-            default: "",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-          {
-            id: 9,
-            name: "Name",
-            type: ValueType.string,
-            default: "",
-            calculator: CalculatorType.None,
-            required: true,
-          },
-        ],
-      },
-    ]);
+		dispatch(add(createTemplate("NodeTemplate")))
   }, []);
-
+  
   const addTemplate = () => {
     const newTemplate: TemplateType = createTemplate();
-    setTemplates([...templates, newTemplate]);
+    dispatch(add(newTemplate));
     setSelectedTemplate(newTemplate);
   };
 
   const deleteTemplate = (id: number) => {
-    setTemplates(
-      templates.filter((t: TemplateType) => {
-        return t.id !== id;
-      })
-    );
+    dispatch(remove(id));
     if (selectedTemplate.id === id) {
       setSelectedTemplate({} as TemplateType);
     }
@@ -131,13 +41,7 @@ export function TemplateEditor() {
 
   const updateTemplate = (values: object) => {
     const template = { ...selectedTemplate, ...values };
-    setTemplates(
-      templates
-        .filter((t: TemplateType) => {
-          return t.id !== selectedTemplate.id;
-        })
-        .concat([template])
-    );
+    dispatch(update(template));
     setSelectedTemplate(template);
   };
 
@@ -161,55 +65,70 @@ export function TemplateEditor() {
   };
 
   return (
-    <div className="flex flex-col max-w-full w-panel bg-slate-50 rounded-md p-4 h-full">
-      <div className="">
-        <p className="text-xl">Template editing</p>
+    <Panel title="Template Editor">
+      <div className="w-1/4 max-w-96 flex flex-col border p-4 gap-1">
+        <TemplateList
+          templates={templates}
+          selectedTemplate={selectedTemplate}
+          selectTemplate={(template: TemplateType) =>
+            setSelectedTemplate(template)
+          }
+          deleteTemplate={(templateid) => deleteTemplate(templateid)}
+          updateTemplate={(id, value) => updateTemplate(value)}
+        />
+        <div>
+          <Button clickAction={addTemplate}>+ Add Template</Button>
+        </div>
       </div>
-      <div className="flex flex-row min-w-full mt-2 h-full">
-        <div className="w-1/3 flex flex-col border p-4 gap-1">
-          <TemplateList
-            templates={templates}
-            selectedTemplate={selectedTemplate}
-            selectTemplate={(template: TemplateType) =>
-              setSelectedTemplate(template)
-            }
-            deleteTemplate={(templateid) => deleteTemplate(templateid)}
-            updateTemplate={(id, value) => updateTemplate(value)}
-          />
+      <div className="w-3/4 border p-4 h-full">
+        {!Array.isArray(selectedTemplate.fields) ? (
+          <div>Select a template</div>
+        ) : (
           <div>
-            <Button clickAction={addTemplate}>+ Add Template</Button>
-          </div>
-        </div>
-
-        <div className="w-2/3 border bg-white p-4 h-full">
-          {!Array.isArray(selectedTemplate.fields) ? (
-            <div>Select a template</div>
-          ) : (
-            <div>
-              <FieldList
-                fields={
-                  selectedTemplate.fields === undefined
-                    ? []
-                    : selectedTemplate.fields
-                }
-                deleteField={(id) =>
-                  updateTemplate({
-                    fields: selectedTemplate.fields.filter(
-                      (f: FieldType) => f.id !== id
-                    ),
-                  })
-                }
-                updateField={(id, data) => updateField(id, data)}
+            <div className="mb-4">
+              <label>Title:</label>
+              <input
+                type="text"
+                className="input"
+                value={selectedTemplate.name}
+                onChange={(e) => updateTemplate({ name: e.target.value })}
               />
-              <Button
-                clickAction={addField}
+              <label>Type:</label>
+              <select
+                className="input"
+                defaultValue={selectedTemplate.type}
+                onChange={(e) => updateTemplate({ type: e.target.value })}
               >
-                + Add Field
-              </Button>
+                {Object.entries(TemplateElementType).map(
+                  (e: [string, TemplateElementType]) => {
+                    return (
+                      <option value={e[0]} key={e[0]}>
+                        {e[0]}
+                      </option>
+                    );
+                  }
+                )}
+              </select>
             </div>
-          )}
-        </div>
+            <FieldList
+              fields={
+                selectedTemplate.fields === undefined
+                  ? []
+                  : selectedTemplate.fields
+              }
+              deleteField={(id) =>
+                updateTemplate({
+                  fields: selectedTemplate.fields.filter(
+                    (f: FieldType) => f.id !== id
+                  ),
+                })
+              }
+              updateField={(id, data) => updateField(id, data)}
+            />
+            <Button clickAction={addField}>+ Add Field</Button>
+          </div>
+        )}
       </div>
-    </div>
+    </Panel>
   );
 }

@@ -1,11 +1,12 @@
 import { NodeData } from "reaflow";
-import { CalculatorType, FieldType, TemplateType, ValueType } from "../types/template";
+import { CalculatorType, TemplateElementType, FieldType, TemplateType, ValueType } from "../types/template";
 
 export const createTemplate = (name?: string): TemplateType => {
   return {
-    id: new Date().getDate(),
+    id: Date.now(),
     name: name !== undefined ? name : "NewTemplate",
     fields: [],
+		type: TemplateElementType.Node
   };
 };
 
