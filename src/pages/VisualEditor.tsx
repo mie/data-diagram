@@ -8,7 +8,7 @@ import { FakeDraggable } from "../ui/fake-draggable/FakeDraggable";
 import { FakeDroppable } from "../ui/fake-droppable/FakeDroppable";
 import { createNode } from "../utils/objectFactory";
 
-export function VisualEditor() {
+export default function VisualEditor() {
   const templates = useAppSelector((state) => state.templates.templates);
   // const [nodeTemplates, setNodeTemplates] = useState<TemplateType[]>([])
   const [nodes, setNodes] = useState<NodeData[]>([]);

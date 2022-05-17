@@ -12,7 +12,7 @@ import { Panel } from "../components/Panel";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { add, remove, update } from '../reducers/templates'
 
-export function TemplateEditor() {
+export default function TemplateEditor() {
   const templates = useAppSelector(
     (state) => state.templates.templates
   );

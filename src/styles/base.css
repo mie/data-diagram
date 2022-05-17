@@ -8,3 +8,13 @@ button:focus {
 label {
 	@apply mx-2
 }
+
+.loader {
+  padding: 2rem 4rem;
+  font-family: monospace;
+  font-weight: bold;
+  color: hsl(0, 0%, 100%);
+  border-style: solid;
+  border-width: 1rem;
+  font-size: 2rem;
+}
